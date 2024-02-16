@@ -1,0 +1,192 @@
+{{ 'tabs.css' | asset_url | stylesheet_tag }}
+{{ 'swiper.css' | asset_url | stylesheet_tag }}
+{{ 'accordion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'swiper.js' | asset_url }}" defer></script>
+<script src="{{ 'accordion.js' | asset_url }}" defer></script>
+
+<section class="tabs__wrapper">
+  <ul class="tabs">
+    <li class="active">
+      <span class="reviews-btn" style="color: {{ product.metafields.custom.tabs_title_color }}">
+        {{- block.settings.title_tab_1 -}}
+      </span>
+    </li>
+    {%- if product.metafields.custom.tabs_panel_2 != blank -%}
+      <li>
+        <span style="color: {{ product.metafields.custom.tabs_title_color }}">
+          {{- block.settings.title_tab_2 -}}
+        </span>
+      </li>
+    {%- endif -%}
+    {%- if product.metafields.custom.tabs_panel_3 != blank -%}
+      <li>
+        <span style="color: {{ product.metafields.custom.tabs_title_color }}">{{ block.settings.title_tab_3 }}</span>
+      </li>
+    {%- endif -%}
+    {%- if product.metafields.custom.tabs_panel_4 != blank -%}
+      <li>
+        <span style="color: {{ product.metafields.custom.tabs_title_color }}">{{ block.settings.title_tab_4 }}</span>
+      </li>
+    {%- endif -%}
+  </ul>
+
+  <div class="tabs-content">
+    {% assign count = 0 %}
+    <div class="tabs-panel active" data-index="{% increment count %}">
+      <div class="wrap wrap-review">
+        {% if product.metafields.custom.tabs_panel_1 != blank %}
+          <div class="swiper">
+            <div class="swiper-wrapper reviews__wrapper"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+        {% else %}
+          <p class="tabs-content--not-found">{{ 'tabs.tab.data_not_found' | t }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if product.metafields.custom.tabs_panel_2 != blank -%}
+      <div class="tabs-panel" data-index="{% increment count %}">
+        <div class="wrap">
+          {%- if product.metafields.custom.tabs_panel_2 != blank -%}
+            {{ product.metafields.custom.tabs_panel_2 | metafield_tag }}
+          {% else %}
+            <p class="tabs-content--not-found">{{ 'tabs.tab.data_not_found' | t }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if product.metafields.custom.tabs_panel_3 != blank -%}
+      <div class="tabs-panel" data-index="{% increment count %}">
+        <div class="wrap">
+          {%- if product.metafields.custom.tabs_panel_3 != blank -%}
+            {{ product.metafields.custom.tabs_panel_3 | metafield_tag }}
+          {% else %}
+            <p class="tabs-content--not-found">{{ 'tabs.tab.data_not_found' | t }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if product.metafields.custom.tabs_panel_4 != blank -%}
+      <div class="tabs-panel" data-index="{% increment count %}">
+        <div class="wrap">
+          {%- if product.metafields.custom.tabs_panel_4 != blank -%}
+            {{ product.metafields.custom.tabs_panel_4 }}
+          {% else %}
+            <p class="tabs-content--not-found">{{ 'tabs.tab.data_not_found' | t }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% if product.metafields.custom.tabs_panel_1 != blank %}
+  {%- assign reviews_ = product.metafields.custom.tabs_panel_1 -%}
+{% else %}
+  {%- assign reviews_ = 'false' -%}
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+
+    const swiper = new Swiper('.swiper', {
+        slidesPerView: 4,
+        spaceBetween: 10,
+        breakpoints: {
+            320: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            480: {
+                slidesPerView: 3,
+                spaceBetween: 30
+            },
+            640: {
+                slidesPerView: 4,
+                spaceBetween: 40
+            }
+        }
+    })
+
+    const tabLinks = document.querySelectorAll('.tabs span');
+    const tabPanels = document.querySelectorAll('.tabs-panel');
+    for (let [i, el] of tabLinks.entries()) {
+      el.addEventListener('click', (e) => {
+        document.querySelector('.tabs li.active').classList.remove('active');
+        document.querySelector('.tabs-panel.active').classList.remove('active');
+        const parentListItem = el.parentElement;
+        parentListItem.classList.add('active');
+        const index = [...parentListItem.parentElement.children].indexOf(parentListItem);
+        const panel = [...tabPanels].filter((el) => el.getAttribute('data-index') == index);
+        panel[0].classList.add('active');
+      });
+    }
+    
+
+    const reviewsWrapper = document.querySelector('.reviews__wrapper');
+    var rev = {{ reviews_ }};
+    if (rev) {
+      var reviewsWrapperJson = rev;
+      star = `<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
+            </svg>`;
+      reviewsWrapperJson.reviews.forEach((item) => {
+        const reviewItemWrapper = document.createElement('div');
+        reviewItemWrapper.classList.add('swiper-slide');
+        reviewItemWrapper.classList.add('swiper-slide--inner');
+        reviewItemWrapper.innerHTML =  `
+          <p class="slider-content--title">${item.user_name}</p>
+          <p class="slider-content--title-desc"><small>${item.verified}</small></p>
+          <p class="slider-content--stars stars-filled--${item.stars_quantity}">${star.repeat(item.stars_quantity)}</p>
+          <p class="review-content">${item.comment_text}</p>
+        `;
+        reviewsWrapper.appendChild(reviewItemWrapper);
+      });
+    }
+
+    new Accordion('.accordion-container');
+
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Tabs product",
+  "class": "product-tabs-wrapper",
+  "target": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Customizing tabs"
+    },
+    {
+      "type": "text",
+      "id": "title_tab_1",
+      "label": "Title tab 1",
+      "default": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "title_tab_2",
+      "label": "Title tab 2",
+      "default": "Descriptions"
+    },
+    {
+      "type": "text",
+      "id": "title_tab_3",
+      "label": "Title tab 3",
+      "default": "Delivery"
+    },
+    {
+      "type": "text",
+      "id": "title_tab_4",
+      "label": "Title tab 4",
+      "default": "FAQs"
+    }
+  ]
+}
+{% endschema %}

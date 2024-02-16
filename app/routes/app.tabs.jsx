@@ -14,6 +14,7 @@ export default function AdditionalPage() {
     <Page>
       <ui-title-bar title="Tabs page" />
       <Layout>
+
         <Layout.Section>
           <Card>
             <BlockStack gap="300">
@@ -22,6 +23,7 @@ export default function AdditionalPage() {
             </BlockStack>
           </Card>
         </Layout.Section>
+
         <Layout.Section variant="oneThird">
           <Card>
             <BlockStack gap="200">
@@ -30,13 +32,7 @@ export default function AdditionalPage() {
               </Text>
               <List>
                 <List.Item>
-                  <Link
-                    url="https://shopify.dev/docs/apps/design-guidelines/navigation#app-nav"
-                    target="_blank"
-                    removeUnderline
-                  >
-                    App nav best practices
-                  </Link>
+                    <Text as="p" variant="bodyMd">Text text</Text>
                 </List.Item>
               </List>
             </BlockStack>

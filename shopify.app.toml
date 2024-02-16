@@ -2,7 +2,7 @@
 
 client_id = "426cf2079514ef3ada5cce14c477733f"
 name = "app-tabs"
-application_url = "https://usr-featured-ivory-towns.trycloudflare.com"
+application_url = "https://apparatus-uc-signature-fs.trycloudflare.com"
 embedded = true
 
 [build]
@@ -16,9 +16,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://usr-featured-ivory-towns.trycloudflare.com/auth/callback",
-  "https://usr-featured-ivory-towns.trycloudflare.com/auth/shopify/callback",
-  "https://usr-featured-ivory-towns.trycloudflare.com/api/auth/callback"
+  "https://apparatus-uc-signature-fs.trycloudflare.com/auth/callback",
+  "https://apparatus-uc-signature-fs.trycloudflare.com/auth/shopify/callback",
+  "https://apparatus-uc-signature-fs.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
