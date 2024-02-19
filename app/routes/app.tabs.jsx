@@ -2,12 +2,12 @@ import {
   Box,
   Card,
   Layout,
-  Link,
   List,
   Page,
   Text,
   BlockStack,
 } from "@shopify/polaris";
+
 
 export default function AdditionalPage() {
   return (
@@ -20,6 +20,7 @@ export default function AdditionalPage() {
             <BlockStack gap="300">
               <Text as="p" variant="bodyMd">The app template for Tabs.</Text>
               <Text as="p" variant="bodyMd">Create tabs section for DPP from customizer.</Text>
+              <Text as="p" variant="bodyMd">Product Handle:</Text>
             </BlockStack>
           </Card>
         </Layout.Section>
@@ -32,7 +33,7 @@ export default function AdditionalPage() {
               </Text>
               <List>
                 <List.Item>
-                    <Text as="p" variant="bodyMd">Text text</Text>
+                  <Text as="p" variant="bodyMd">Text text</Text>
                 </List.Item>
               </List>
             </BlockStack>
